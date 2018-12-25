@@ -48,10 +48,19 @@ const Title = styled.div`
 const StyledImageTitle = styled.img`
   width: 300px;
   height: auto;
+  position: absolute;
+  top: 0;
 `
 
 const Cards = styled.div`
-  margin: -85px auto 0 auto;
+  @media (max-width: 1399px) {
+    margin: 12em auto;
+  }
+
+  @media (min-width: 1400px) {
+    margin: 10em auto 0 auto;
+  }
+  
   display: flex;
   align-items: center;
   justify-content: center;
@@ -84,7 +93,7 @@ const Counter = styled.span`
   color: #fff;
   position: absolute;
   left: 4.3em;
-  top: 2.5em;
+  top: 2em;
   font-size: 2em;
 `
 
@@ -92,7 +101,7 @@ const StyledButton = styled.button`
   font-size: 2em;
   position: absolute;
   right: 4.3em;
-  top: 1.43em;
+  top: 1em;
   font-weight: bold;
   color: #fff;
   background-image: linear-gradient(to top, #d4312b 65%, #fd9145);
