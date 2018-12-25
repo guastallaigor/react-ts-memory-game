@@ -79,29 +79,28 @@ const Hourglass = styled.div`
   }
 `;
 
+const Counter = styled.span`
+  font-weight: bold;
+  color: #fff;
+  font-size: 3em;
+  margin-right: 2em;
+`
+
 interface IState { 
   cards: ICardInterface[], 
-  card1: ICardInterface, 
-  card2: ICardInterface, 
-  card3: ICardInterface, 
-  card4: ICardInterface, 
-  card5: ICardInterface, 
-  card6: ICardInterface, 
   canShow: boolean,
-  cardsDuplicated: ICardInterface[] 
+  counter: number,
+  cardsDuplicated: ICardInterface[],
+  openedCards: ICardInterface[]
 };
 
 class App extends React.Component<{}, IState> {
   public state = {
     cards: [],
     canShow: false,
-    card1: { imageUrl: '', id: 0, isTurned: false, onTurn:() => ({}) },
-    card2: { imageUrl: '', id: 1, isTurned: false, onTurn:() => ({}) },
-    card3: { imageUrl: '', id: 2, isTurned: false, onTurn:() => ({}) },
-    card4: { imageUrl: '', id: 3, isTurned: false, onTurn:() => ({}) },
-    card5: { imageUrl: '', id: 4, isTurned: false, onTurn:() => ({}) },
-    card6: { imageUrl: '', id: 5, isTurned: false, onTurn:() => ({}) },
-    cardsDuplicated: []
+    counter: 0,
+    cardsDuplicated: [],
+    openedCards: []
   }
 
   constructor(props: any) {
@@ -110,7 +109,7 @@ class App extends React.Component<{}, IState> {
   }
 
   public render() {
-    const { cards, canShow } = this.state;
+    const { cards, canShow, counter } = this.state;
 
     if (!canShow) {
       return  (
@@ -124,6 +123,7 @@ class App extends React.Component<{}, IState> {
     return (
       <MainView> 
         <Title>
+          <Counter>{counter}</Counter>
           <StyledImageTitle src={require('./logo.jpg')} alt="img-title"/>
         </Title>
         <Cards>
@@ -133,6 +133,33 @@ class App extends React.Component<{}, IState> {
         </Cards>
       </MainView>
     );
+  }
+
+  public componentDidUpdate() {
+    const { openedCards, cards, counter } = this.state
+
+    if (openedCards.length === 2) {
+      const card1: ICardInterface = openedCards[0];
+      const card2: ICardInterface = openedCards[1];
+      const incrementCounter: boolean = card1.id === card2.id;
+      let newCards: ICardInterface[] = [];
+
+      if (!incrementCounter) {
+        newCards = cards.map((card: ICardInterface, index: number) => {
+          if (card1.id === card.id || card2.id === card.id) {
+            card.isTurned = false
+          }
+  
+          return card;
+        });
+
+        this.setState(() => ({ openedCards: [], cards: newCards }));
+
+        return;
+      }
+      
+      this.setState(() => ({ openedCards: [], cards: newCards, counter: counter + 1 }));
+    }
   }
 
   private shuffle = (array: any) => {
@@ -152,12 +179,11 @@ class App extends React.Component<{}, IState> {
   }
 
   private getCards = async () => {
-    const ids = [447242, 442889, 447139, 435212, 447290, 447355];
-
+    const ids: number[] = [447242, 442889, 447139, 435212, 447290, 447355];
 
     await Promise.all(ids.map(async (id) => {
       const { data } = await Axios.get(`https://api.magicthegathering.io/v1/cards/${id}`);      
-      this.setState({ cardsDuplicated: [...this.state.cardsDuplicated, data.card] });
+      this.setState(() => ({ cardsDuplicated: [...this.state.cardsDuplicated, data.card] }));
 
       return data;
     }))
@@ -166,26 +192,25 @@ class App extends React.Component<{}, IState> {
     const otherDuplicate = cardsDuplicated.slice(0);
     const shuffledCards = this.shuffle([...cardsDuplicated, ...otherDuplicate]);
 
-    this.setState({ canShow: true, cards: [...shuffledCards] });
+    this.setState(() => ({ canShow: true, cards: [...shuffledCards] }));
   }
 
-  private handleTurn = (id: number) => {
-    console.log('====================================');
-    console.log(id, ':id');
-    console.log('====================================');
+  private handleTurn = (idx: number) => {
     const { cards } = this.state;    
     const newCards = cards.map((card: ICardInterface, index: number) => {
-      if (index === id) {
-        console.log('====================================');
-        console.log(card);
-        console.log('====================================');
+      if (index === idx) {
+        if (card.isTurned) {
+          return card
+        }
+
         card.isTurned = !card.isTurned;
+        this.setState(() => ({ openedCards: [...this.state.openedCards, card]}));        
       }
 
       return card;
     });
 
-    this.setState({ cards: newCards });
+    this.setState(() => ({ cards: newCards }));
   }
 }
 
