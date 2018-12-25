@@ -11,7 +11,7 @@ const CardFlip = styled.div`
     background-color: transparent;
     width: 265px;
     height: 370px;
-    margin: 0 5px 2px 5px;    
+    margin: 5px 5px 2px 5px;    
     cursor: pointer;
     perspective: 1000px;
 `
