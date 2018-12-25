@@ -4,7 +4,7 @@
 </div>
 
 <p align="center">
-  React TS Memory Game is a simple memory card game that uses the [Magic the Gathering API](https://docs.magicthegathering.io/), made with React and Typescript.
+  React TS Memory Game is a simple memory card game that uses the <a href="https://docs.magicthegathering.io" target="_blank">Magic the Gathering API</a>, made with React and Typescript.
 </p>
 
 ## Usage
