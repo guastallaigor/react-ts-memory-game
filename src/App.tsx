@@ -1,5 +1,6 @@
 import Axios from 'axios';
 import Card from './card/card';
+import GithubIcon from './github-icon';
 import { ICardInterface } from './card/card-interface';
 import styled from './styled/styled-components-main';
 import * as React from 'react';
@@ -160,6 +161,7 @@ class App extends React.Component<{}, IState> {
           <Counter>Matched cards: {counter}</Counter>
           <StyledImageTitle src={require('./logo.jpg')} alt="img-title"/>
           <StyledButton onClick={this.restart}>Restart</StyledButton>
+          <GithubIcon/>
         </Title>
         <Cards>
           {cards.map((card: ICardInterface, index: number) => (

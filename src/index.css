@@ -25,3 +25,51 @@ html, #root {
     transform: rotate(1800deg);
   }
 }
+
+.octo-arm {
+  transform-origin: 130px 106px;
+}
+
+.github-corner svg {
+  fill: #f7f7f7;
+  color: #333333;
+  position: fixed;
+  top: 0;
+  border: 0;
+  right: 0;
+}
+.github-corner:hover .octo-arm {
+  animation: octocat-wave 560ms ease-in-out;
+}
+
+@keyframes octocat-wave {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  20%,
+  60% {
+    transform: rotate(-25deg);
+  }
+  40%,
+  80% {
+    transform: rotate(10deg);
+  }
+}
+
+@media (max-width: 500px) {
+  body {
+    font-size: 1rem;
+    padding: 10px;
+  }
+  .collection {
+    justify-content: center;
+  }
+
+  .github-corner:hover .octo-arm {
+    animation: none;
+  }
+  .github-corner .octo-arm {
+    animation: octocat-wave 560ms ease-in-out;
+  }
+}
