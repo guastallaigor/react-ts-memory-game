@@ -57,8 +57,12 @@ const Cards = styled.div`
     margin: 12em auto;
   }
 
-  @media (min-width: 1400px) {
-    margin: 10em auto 0 auto;
+  @media (min-width: 1400px) and (max-width: 1599px) {
+    margin: 8em auto 0 auto;
+  }
+
+  @media (min-width: 1600px) {
+    margin: 4em auto 0 auto;
   }
   
   display: flex;
