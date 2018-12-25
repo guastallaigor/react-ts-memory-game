@@ -16,12 +16,25 @@ const MainView = styled.div`
 `;
 
 const LoadingView = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 1;
-  margin: 0 auto;
+  flex-flow: column nowrap;
+  background: #000;   
+  height: 100%;
+  width: 100%;
+  text-align: center;  
 `;
+
+const LoadingSpan = styled.span`
+  margin: 0 0 1em 0;
+  text-align: center;
+  display: flex;
+  align-self: center;
+  color: #fff;
+  font-weight: bold;
+`
 
 const Title = styled.div`
   display: flex;
@@ -45,6 +58,26 @@ const Cards = styled.div`
   flex-flow: row wrap;
   background-color: #000;
 `
+
+const Hourglass = styled.div`
+  display: inline-block;
+  position: relative;
+  width: 64px;
+  height: 64px;
+
+  &::after {
+    content: "";
+    display: block;
+    border-radius: 50%;
+    width: 0;
+    height: 0;
+    margin: 6px;
+    box-sizing: border-box;
+    border: 26px solid #fff;
+    border-color: #fff transparent #fff transparent;
+    animation: lds-hourglass 1.2s infinite;
+  }
+`;
 
 interface IState { 
   cards: ICardInterface[], 
@@ -77,15 +110,16 @@ class App extends React.Component<{}, IState> {
   }
 
   public render() {
-    if (!this.state.canShow) {
+    const { cards, canShow } = this.state;
+
+    if (!canShow) {
       return  (
         <LoadingView>
-          <div>Loading cards...</div>
+          <LoadingSpan>Loading cards...</LoadingSpan>
+          <Hourglass/>
         </LoadingView>
       );
     }
-
-    const { cards } = this.state;
 
     return (
       <MainView> 
