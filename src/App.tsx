@@ -4,7 +4,6 @@ import GithubIcon from './github-icon';
 import { ICardInterface } from './card/card-interface';
 import styled from './styled/styled-components-main';
 import * as React from 'react';
-// import { log } from 'util';
 
 const MainView = styled.div`
   display: flex;
@@ -50,7 +49,20 @@ const StyledImageTitle = styled.img`
   width: 300px;
   height: auto;
   position: absolute;
-  top: 0;
+  top: -1em;
+  `
+
+const StyledMemoryTitle = styled.span`
+  width: 300px;
+  height: auto;
+  color: #fff;
+  top: 3.5em;
+  left: 53%;
+  font-weight: bold;  
+  margin-right: 50%;
+  transform: translate(-50%, -50%);  
+  font-size: 2em;
+  position: absolute;
 `
 
 const Cards = styled.div`
@@ -63,7 +75,7 @@ const Cards = styled.div`
   }
 
   @media (min-width: 1600px) {
-    margin: 4em auto 0 auto;
+    margin: 6em auto 0 auto;
   }
   
   display: flex;
@@ -121,6 +133,18 @@ const StyledButton = styled.button`
   }
 `
 
+const Footer = styled.div`
+  display: flex;
+  flex-flow: wrap row;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 1.5em;
+  margin-top: 0;
+  padding-top: 0;
+  font-weight: bold;
+`
+
 interface IState { 
   cards: ICardInterface[], 
   canShow: boolean,
@@ -160,6 +184,7 @@ class App extends React.Component<{}, IState> {
         <Title>
           <Counter>Matched cards: {counter}</Counter>
           <StyledImageTitle src={require('./logo.jpg')} alt="img-title"/>
+          <StyledMemoryTitle>Memory Game</StyledMemoryTitle>
           <StyledButton onClick={this.restart}>Restart</StyledButton>
           <GithubIcon/>
         </Title>
@@ -168,6 +193,9 @@ class App extends React.Component<{}, IState> {
             <Card key={index} id={index} isTurned={card.isTurned} imageUrl={card.imageUrl} onTurn={this.handleTurn} />)
           )}
         </Cards>
+        <Footer>
+          Made by&nbsp;<a href="https://github.com/guastallaigor" target="_blank">@guastallaigor</a>
+        </Footer>
       </MainView>
     );
   }
@@ -222,7 +250,7 @@ class App extends React.Component<{}, IState> {
     setTimeout(() => {
       this.setState(() => ({ cards: [], counter: 0, canShow: false }));
       this.init();
-    }, 400)
+    }, 550)
   }
 
   private shuffle = (array: any) => {

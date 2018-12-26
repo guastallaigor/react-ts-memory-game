@@ -1,7 +1,14 @@
-body {
+@font-face {
+  font-family: 'SatansMinions';
+  src:url('./satans-minions/SATAM___.TTF') format('truetype');
+  font-weight:normal;
+  font-style:normal;
+}
+
+body {  
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: SatansMinions, sans-serif;
   height: 100%;
   width: 100%;
 }
@@ -10,8 +17,25 @@ html, #root {
   height: 100%;
   width: 100%;
   overflow-y: auto;
+  font-family: SatansMinions, sans-serif;
 }
 
+button {
+  font-family: SatansMinions, sans-serif;
+}
+
+a, a:hover {
+  text-decoration: none !important;
+}
+
+a {
+  color: #d4312b;
+  transition: color .2s ease-out;
+}
+
+a:hover {
+  color: #fd9145;
+}
 @keyframes lds-hourglass {
   0% {
     transform: rotate(0);
