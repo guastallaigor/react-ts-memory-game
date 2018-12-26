@@ -34,6 +34,7 @@ const LoadingSpan = styled.span`
   align-self: center;
   color: #fff;
   font-weight: bold;
+  font-size: 2.5em;
 `
 
 const Title = styled.div`
@@ -88,8 +89,8 @@ const Cards = styled.div`
 const Hourglass = styled.div`
   display: inline-block;
   position: relative;
-  width: 64px;
-  height: 64px;
+  width: 128px;
+  height: 128px;
 
   &::after {
     content: "";
@@ -99,7 +100,7 @@ const Hourglass = styled.div`
     height: 0;
     margin: 6px;
     box-sizing: border-box;
-    border: 26px solid #fff;
+    border: 64px solid #fff;
     border-color: #fff transparent #fff transparent;
     animation: lds-hourglass 1.2s infinite;
   }
@@ -191,7 +192,7 @@ class App extends React.Component<{}, IState> {
     return (
       <MainView> 
         <Title>
-          <Matched>Matched cards: {counter}/6</Matched>
+          <Matched>Matched cards: {counter} / 6</Matched>
           <Moves>Moves: {moves}</Moves>
           <StyledImageTitle src={require('./logo.jpg')} alt="img-title"/>
           <StyledMemoryTitle>Memory Game</StyledMemoryTitle>
@@ -212,7 +213,7 @@ class App extends React.Component<{}, IState> {
   }
 
   public componentDidUpdate() {
-    const { openedCards, cards, counter } = this.state
+    const { openedCards, cards, counter, moves } = this.state
 
     if (openedCards.length === 2) {
       const card1: ICardInterface = openedCards[0];
@@ -230,13 +231,13 @@ class App extends React.Component<{}, IState> {
             return card;
           });
           
-          this.setState(() => ({ openedCards: [], cards: newCards }));
+          this.setState(() => ({ openedCards: [], cards: newCards, moves: moves + 1 }));
         }, 1000)
 
         return;
       }
       
-      this.setState(() => ({ openedCards: [], counter: counter + 1 }));
+      this.setState(() => ({ openedCards: [], counter: counter + 1, moves: moves + 1 }));
     }
   }
 
@@ -302,7 +303,7 @@ class App extends React.Component<{}, IState> {
   }
 
   private handleTurn = (idx: number) => {
-    const { cards, openedCards, moves } = this.state;
+    const { cards, openedCards } = this.state;
     if (openedCards.length === 2) {
       return;
     }
@@ -320,7 +321,7 @@ class App extends React.Component<{}, IState> {
       return card;
     });
 
-    this.setState(() => ({ cards: newCards, moves: moves + 1 }));
+    this.setState(() => ({ cards: newCards }));
   }
 }
 
