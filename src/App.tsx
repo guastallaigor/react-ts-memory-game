@@ -106,12 +106,20 @@ const Hourglass = styled.div`
 `;
 
 const Counter = styled.span`
-  font-weight: bold;
-  color: #fff;
   position: absolute;
-  left: 4.3em;
-  top: 2em;
+  font-weight: bold;
+  color: #fff;  
   font-size: 2em;
+`
+
+const Moves = styled(Counter)`
+  left: 4.3em;
+  top: 1.5em;
+`
+
+const Matched = styled(Counter)`
+  left: 4.3em;
+  top: 2.5em;
 `
 
 const StyledButton = styled.button`
@@ -149,26 +157,27 @@ interface IState {
   cards: ICardInterface[], 
   canShow: boolean,
   counter: number,
+  moves: number,
   cardsDuplicated: ICardInterface[],
   openedCards: ICardInterface[]
 };
 
 class App extends React.Component<{}, IState> {
-  public state = {
-    cards: [],
-    canShow: false,
-    counter: 0,
-    cardsDuplicated: [],
-    openedCards: []
-  }
-
   constructor(props: any) {
     super(props);
+    this.state = {
+      cards: [],
+      canShow: false,
+      moves: 0,
+      counter: 0,
+      cardsDuplicated: [],
+      openedCards: []
+    }
     this.getCards();  
   }
 
   public render() {
-    const { cards, canShow, counter } = this.state;
+    const { cards, canShow, counter, moves } = this.state;
 
     if (!canShow) {
       return  (
@@ -182,8 +191,10 @@ class App extends React.Component<{}, IState> {
     return (
       <MainView> 
         <Title>
-          <Counter>Matched cards: {counter}</Counter>
+          <Matched>Matched cards: {counter}/6</Matched>
+          <Moves>Moves: {moves}</Moves>
           <StyledImageTitle src={require('./logo.jpg')} alt="img-title"/>
+          <StyledMemoryTitle>Memory Game</StyledMemoryTitle>
           <StyledMemoryTitle>Memory Game</StyledMemoryTitle>
           <StyledButton onClick={this.restart}>Restart</StyledButton>
           <GithubIcon/>
@@ -291,7 +302,7 @@ class App extends React.Component<{}, IState> {
   }
 
   private handleTurn = (idx: number) => {
-    const { cards, openedCards } = this.state;
+    const { cards, openedCards, moves } = this.state;
     if (openedCards.length === 2) {
       return;
     }
@@ -309,7 +320,7 @@ class App extends React.Component<{}, IState> {
       return card;
     });
 
-    this.setState(() => ({ cards: newCards }));
+    this.setState(() => ({ cards: newCards, moves: moves + 1 }));
   }
 }
 
