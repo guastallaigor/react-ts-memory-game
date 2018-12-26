@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="./src/logo.jpg" width="200px">
+  <img src="./public/logomemorygame1.png" width="200px">
   <h1>React TS Memory Game</h1>
 </div>
 
