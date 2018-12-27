@@ -77,7 +77,7 @@ const Cards = styled.div`
   }
 
   @media (min-width: 1600px) {
-    margin: 6em auto 0 auto;
+    margin: 7em auto 0 auto;
   }
   
   display: flex;
@@ -155,9 +155,19 @@ const Footer = styled.div`
   font-weight: bold;
 `
 
+const PlayerWon = styled.div`
+  position: absolute;
+  font-weight: bold;  
+  color: #e6eaeb;
+  font-size: 10em;
+  z-index: 3;
+	animation: text-animation 1.6s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+`
+
 interface IState { 
   cards: ICardInterface[], 
   canShow: boolean,
+  playerWon: boolean,
   counter: number,
   moves: number,
   cardsDuplicated: ICardInterface[],
@@ -173,13 +183,14 @@ class App extends React.Component<{}, IState> {
       moves: 0,
       counter: 0,
       cardsDuplicated: [],
-      openedCards: []
+      openedCards: [],
+      playerWon: false
     }
     this.getCards();  
   }
 
   public render() {
-    const { cards, canShow, counter, moves } = this.state;
+    const { cards, canShow, counter, moves, playerWon } = this.state;
 
     if (!canShow) {
       return  (
@@ -201,9 +212,10 @@ class App extends React.Component<{}, IState> {
           <StyledButton onClick={this.restart}>Restart</StyledButton>
           <GithubIcon/>
         </Title>
+        <PlayerWon style={{display: playerWon ? 'block' : 'none'}}>You Won!</PlayerWon>
         <Cards>
           {cards.map((card: ICardInterface, index: number) => (
-            <Card key={index} id={index} isTurned={card.isTurned} imageUrl={card.imageUrl} onTurn={this.handleTurn} />)
+            <Card key={index} id={index} isTurned={card.isTurned} imageUrl={card.imageUrl} onTurn={this.handleTurn} otherWay={card.otherWay} />)
           )}
         </Cards>
         <Footer>
@@ -214,7 +226,7 @@ class App extends React.Component<{}, IState> {
   }
 
   public componentDidUpdate() {
-    const { openedCards, cards, counter, moves } = this.state
+    const { openedCards, cards, counter, moves, playerWon } = this.state
 
     if (openedCards.length === 2) {
       const card1: ICardInterface = openedCards[0];
@@ -240,30 +252,47 @@ class App extends React.Component<{}, IState> {
       
       this.setState(() => ({ openedCards: [], counter: counter + 1, moves: moves + 1 }));
     }
+
+    if (counter === 6 && !playerWon) {
+      this.rollOutCardsAndPlayerWon();
+    }
   }
 
   private getAllCardsFolded = () => {
     const { cardsDuplicated, cards } = this.state;
     const duplicatedCardsFolded = cardsDuplicated.map((card: ICardInterface) => {
       card.isTurned = false;
+      card.otherWay = false;
 
       return card;
     });
     const cardsFolded = cards.map((card: ICardInterface) => {
       card.isTurned = false;
+      card.otherWay = false;
 
       return card;
     });
 
-    this.setState(() => ({ cardsDuplicated: duplicatedCardsFolded, cards: cardsFolded }));
+    this.setState(() => ({ cardsDuplicated: duplicatedCardsFolded, cards: cardsFolded, openedCards: [] }));
   }
 
   private restart = () => {
     this.getAllCardsFolded();
     setTimeout(() => {
-      this.setState(() => ({ cards: [], counter: 0, moves: 0, canShow: false }));
+      this.setState(() => ({ cards: [], counter: 0, openedCards: [], moves: 0, canShow: false, playerWon: false }));
       this.init();
     }, 550)
+  }
+
+  private rollOutCardsAndPlayerWon = async () => {
+    const { cards } = this.state;
+    await cards.forEach((card: ICardInterface, index: number) => {
+      setTimeout(async () => {
+        card.otherWay = true;
+        await this.setState(() => ({ cards: [...cards.slice(0, index), card, ...cards.slice(index + 1)], openedCards: [], counter: 0 }));
+      }, (190) * index);
+    });
+    this.setState(() => ({ playerWon: true }));
   }
 
   private shuffle = (array: any) => {

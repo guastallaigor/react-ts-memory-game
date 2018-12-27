@@ -43,7 +43,7 @@ const CardFlipBack = styled(CardFlipBoth)`
 const Card = (props: ICardInterface) => (
     <CardFlip>
         <CardFlipInner 
-            style={props.isTurned ? { transform: 'rotateY(180deg)' } : {}} 
+            style={props.isTurned && !props.otherWay ? { transform: 'rotateY(180deg)' } : props.otherWay ? { transform: 'rotateY(360deg)' } : {}} 
             onClick={() => props.onTurn(props.id)}
         >
             <CardFlipFront>
