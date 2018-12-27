@@ -66,6 +66,40 @@ const StyledMemoryTitle = styled.span`
   position: absolute;
 `
 
+const CardFlip = styled.div`
+  background-color: transparent;    
+  perspective: 1000px;
+`
+
+const CardFlipInner = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+`
+
+const CardFlipBoth = styled.div`
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  background-color: transparent;
+`
+
+const CardFlipFront = styled(CardFlipBoth)`
+`
+
+const CardFlipBack = styled(CardFlipBoth)`
+  transform: rotateY(180deg);
+`
+
+const Won = styled.div`
+  color: #fff;
+  font-size: 2em;
+  font-weight: bold;
+`
+
 const Cards = styled.div`
   @media (max-width: 1399px) {
     margin: 12em auto;
@@ -200,11 +234,20 @@ class App extends React.Component<{}, IState> {
           <StyledButton onClick={this.restart}>Restart</StyledButton>
           <GithubIcon/>
         </Title>
-        <Cards>
-          {cards.map((card: ICardInterface, index: number) => (
-            <Card key={index} id={index} isTurned={card.isTurned} imageUrl={card.imageUrl} onTurn={this.handleTurn} />)
-          )}
-        </Cards>
+        <CardFlip>
+          <CardFlipInner style={counter === 6 ? { transform: 'rotateY(180deg)' } : {}}>
+            <CardFlipFront>
+              <Cards>
+                {cards.map((card: ICardInterface, index: number) => (
+                  <Card key={index} id={index} isTurned={card.isTurned} imageUrl={card.imageUrl} onTurn={this.handleTurn} />)
+                )}
+              </Cards>
+            </CardFlipFront>
+            <CardFlipBack>
+              <Won>You won!</Won>
+            </CardFlipBack>
+          </CardFlipInner>
+        </CardFlip>        
         <Footer>
           Made by&nbsp;<a href="https://github.com/guastallaigor" target="_blank">@guastallaigor</a>
         </Footer>

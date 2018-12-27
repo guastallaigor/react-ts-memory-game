@@ -36,6 +36,7 @@ a {
 a:hover {
   color: #fd9145;
 }
+
 @keyframes lds-hourglass {
   0% {
     transform: rotate(0);
