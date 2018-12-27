@@ -13,6 +13,13 @@ Recommended resolution: >= 1024px.
 
 Go to https://react-ts-memory-game.now.sh and have fun!
 
+## TODO
+
+* [ ] Add tests
+* [ ] Add success modal/other thing
+* [ ] Add different cards
+* [ ] Add timer
+
 ## License
 
 MIT © [guastallaigor](https://github.com/guastallaigor/react-ts-memory-game/blob/master/LICENSE)
