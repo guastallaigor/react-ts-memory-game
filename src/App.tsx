@@ -32,7 +32,7 @@ const LoadingSpan = styled.span`
   text-align: center;
   display: flex;
   align-self: center;
-  color: #fff;
+  color: #e6eaeb;
   font-weight: bold;
   font-size: 2.5em;
 `
@@ -56,7 +56,8 @@ const StyledImageTitle = styled.img`
 const StyledMemoryTitle = styled.span`
   width: 300px;
   height: auto;
-  color: #fff;
+  color: #e6eaeb;
+  background-clip: text;
   top: 3.5em;
   left: 53%;
   font-weight: bold;  
@@ -100,8 +101,8 @@ const Hourglass = styled.div`
     height: 0;
     margin: 6px;
     box-sizing: border-box;
-    border: 64px solid #fff;
-    border-color: #fff transparent #fff transparent;
+    border: 64px solid #e6eaeb;
+    border-color: #e6eaeb transparent #e6eaeb transparent;
     animation: lds-hourglass 1.2s infinite;
   }
 `;
@@ -109,7 +110,7 @@ const Hourglass = styled.div`
 const Counter = styled.span`
   position: absolute;
   font-weight: bold;
-  color: #fff;  
+  color: #e6eaeb;  
   font-size: 2em;
 `
 
@@ -129,7 +130,7 @@ const StyledButton = styled.button`
   right: 4.3em;
   top: 1em;
   font-weight: bold;
-  color: #fff;
+  color: #e6eaeb;
   background-image: linear-gradient(to top, #d4312b 65%, #fd9145);
   width: 180px;
   height: 80px;
@@ -147,7 +148,7 @@ const Footer = styled.div`
   flex-flow: wrap row;
   justify-content: center;
   align-items: center;
-  color: #fff;
+  color: #e6eaeb;
   font-size: 1.5em;
   margin-top: 0;
   padding-top: 0;
@@ -260,7 +261,7 @@ class App extends React.Component<{}, IState> {
   private restart = () => {
     this.getAllCardsFolded();
     setTimeout(() => {
-      this.setState(() => ({ cards: [], counter: 0, canShow: false }));
+      this.setState(() => ({ cards: [], counter: 0, moves: 0, canShow: false }));
       this.init();
     }, 550)
   }
